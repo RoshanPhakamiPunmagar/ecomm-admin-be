@@ -1,0 +1,59 @@
+@rootURL = http://localhost:3000
+@apiEP = {{rootURL}}/api/admin/v1
+@authEP = {{apiEP}}/auth/login
+
+@productsEP = {{apiEP}}/products
+
+@categoriesEP = {{apiEP}}/categories
+
+@ordersEP = {{apiEP}}/orders
+
+@reviewsEP = {{apiEP}}/reviews
+
+# Customer Backend APIs (Base: /api/customer/v1/)
+# Authentication APIs:
+# POST /api/customer/v1/auth/signup
+# POST /api/customer/v1/auth/login     
+# GET /api/customer/v1/auth/verify/:token
+# POST /api/customer/v1/auth/refresh-token
+# Product APIs:
+
+
+
+###
+POST {{authEP}}
+Content-Type: application/json
+
+{
+  "email": "admin@gmail.com",
+  "password": "123456"
+}
+
+### create a new product
+
+POST {{productsEP}}
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsIl9pZCI6IjY5NzcyNTg1ZDIxYzIyYzU4MDUwMTgzOSIsImlhdCI6MTc2OTQxODQ0NSwiZXhwIjoxNzY5NTA0ODQ1fQ.RMR4Ho6Kk_fJyMK6GBdBJso4m-agVj7kEt9CNQjreNw
+Content-Type: application/json
+
+{
+  "name": "Google Pixel 8",
+  "description": "Google's latest flagship phone",
+  "price": 899,
+  "stock": 12,
+  "category": "695a1fd327ad281b903a6187",
+  "images": ["pixel8-front.jpg", "pixel8-back.jpg"]
+}
+
+### update product details
+PUT {{productsEP}}/695a21df27ad281b903a6193
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsIl9pZCI6IjY5NzcyNTg1ZDIxYzIyYzU4MDUwMTgzOSIsImlhdCI6MTc2OTQxODQ0NSwiZXhwIjoxNzY5NTA0ODQ1fQ.RMR4Ho6Kk_fJyMK6GBdBJso4m-agVj7kEt9CNQjreNw
+Content-Type: application/json
+
+{
+  "price": 2400,
+  "stock": 25
+}
+
+### delete a product
+DELETE {{productsEP}}/695a21df27ad281b903a6193
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsIl9pZCI6IjY5NzcyNTg1ZDIxYzIyYzU4MDUwMTgzOSIsImlhdCI6MTc2OTQxODQ0NSwiZXhwIjoxNzY5NTA0ODQ1fQ.RMR4Ho6Kk_fJyMK6GBdBJso4m-agVj7kEt9CNQjreNw
