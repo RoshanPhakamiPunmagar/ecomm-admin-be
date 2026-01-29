@@ -36,11 +36,11 @@ app.use("/api/admin/v1/auth", authRouter);
 
 app.use("/api/admin/v1/products", productRouter);
 
-app.use("/api/customer/v1/categories", categoryRouter);
+app.use("/api/admin/v1/categories", categoryRouter);
 
-app.use("/api/customer/v1/orders", orderRouter);
+app.use("/api/admin/v1/orders", orderRouter);
 
-app.use("/api/customer/v1/reviews", reviewRouter);
+app.use("/api/admin/v1/reviews", reviewRouter);
 
 // Global error handler
 app.use((error, req, res, next) => {

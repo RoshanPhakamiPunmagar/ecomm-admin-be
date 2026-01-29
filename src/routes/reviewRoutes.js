@@ -1,16 +1,16 @@
 import express from "express";
 import {
-  submitReview,
-  getProductReviews,
+  approveReview,
+  deleteReview,
 } from "../controllers/reviewController.js";
+
 import { auth } from "../middleware/authMiddleware.js";
+import { allowRoles } from "../middleware/roleMiddleware.js";
 
 const router = express.Router();
 
-// Submit review
-router.post("/", auth, submitReview);
-
-// Get reviews of a product
-router.get("/:productId", getProductReviews);
+// 🔒 ADMIN ONLY
+router.put("/:id/approve", auth, allowRoles("admin"), approveReview);
+router.delete("/:id", auth, allowRoles("admin"), deleteReview);
 
 export default router;

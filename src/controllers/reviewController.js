@@ -1,67 +1,43 @@
-import { createNewReview, getReviews } from "../models/reviews/reviewModel.js";
-import Order from "../models/orders/orderModel.js";
+import {
+  approveReviewById,
+  deleteReviewById,
+} from "../models/reviews/reviewModel.js";
 
-export const submitReview = async (req, res, next) => {
+// APPROVE REVIEW
+export const approveReview = async (req, res, next) => {
   try {
-    const userId = req.userInfo._id;
-    const { productId, rating, comment } = req.body;
+    const { id } = req.params;
 
-    if (!productId || !rating) {
-      return res.status(400).json({
-        status: "error",
-        message: "productId and rating are required",
-      });
+    const review = await approveReviewById(id);
+
+    if (!review) {
+      return next({ status: 404, message: "Review not found" });
     }
-
-    const hasBought = await Order.findOne({
-      userId,
-      "products.productId": productId,
-    });
-
-    if (!hasBought) {
-      return res.status(403).json({
-        status: "error",
-        message: "You can only review products you purchased",
-      });
-    }
-
-    const review = await createNewReview({
-      productId,
-      userId,
-      rating,
-      comment,
-      approved: false,
-    });
 
     res.json({
       status: "success",
-      message: "Review submitted and awaiting approval",
+      message: "Review approved",
       review,
     });
   } catch (error) {
-    // Duplicate review
-    if (error.code === 11000) {
-      return res.status(400).json({
-        status: "error",
-        message: "You have already reviewed this product",
-      });
-    }
     next(error);
   }
 };
 
-export const getProductReviews = async (req, res, next) => {
+// DELETE REVIEW
+export const deleteReview = async (req, res, next) => {
   try {
-    const { productId } = req.params;
+    const { id } = req.params;
 
-    const reviews = await getReviews({
-      productId,
-      approved: true,
-    });
+    const review = await deleteReviewById(id);
+
+    if (!review) {
+      return next({ status: 404, message: "Review not found" });
+    }
 
     res.json({
       status: "success",
-      reviews,
+      message: "Review deleted",
     });
   } catch (error) {
     next(error);

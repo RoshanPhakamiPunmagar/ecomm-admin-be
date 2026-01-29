@@ -1,9 +1,17 @@
 import express from "express";
-import { fetchCategories } from "../controllers/categoryController.js";
+import {
+  createCategory,
+  updateCategoryById,
+  deleteCategoryById,
+} from "../controllers/categoryController.js";
+import { auth } from "../middleware/authMiddleware.js";
+import { allowRoles } from "../middleware/roleMiddleware.js";
 
 const router = express.Router();
 
-// GET /api/customer/v1/categories
-router.get("/", fetchCategories);
+//  Admin only
+router.post("/", auth, allowRoles("admin"), createCategory);
+router.put("/:id", auth, allowRoles("admin"), updateCategoryById);
+router.delete("/:id", auth, allowRoles("admin"), deleteCategoryById);
 
 export default router;

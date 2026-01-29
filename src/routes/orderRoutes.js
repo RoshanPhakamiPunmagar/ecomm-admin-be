@@ -1,11 +1,15 @@
 import express from "express";
-import { placeOrder, getMyOrders } from "../controllers/orderController.js";
+import {
+  getAllOrdersAdmin,
+  updateOrderStatusByAdmin,
+} from "../controllers/orderController.js";
 import { auth } from "../middleware/authMiddleware.js";
+import { allowRoles } from "../middleware/roleMiddleware.js";
 
 const router = express.Router();
 
-// must be logged in
-router.post("/", auth, placeOrder);
-router.get("/", auth, getMyOrders);
+// ADMIN ONLY
+router.get("/", auth, allowRoles("admin"), getAllOrdersAdmin);
+router.put("/:id/status", auth, allowRoles("admin"), updateOrderStatusByAdmin);
 
 export default router;
